@@ -28,7 +28,7 @@ class CreateAbsensisTable extends Migration
             $table->string('foto_pulang')->nullable();
             
             // Kolom status yang sudah benar (status -> status_masuk)
-            $table->enum('status_masuk', ['Hadir', 'Terlambat', 'Alpha', 'Izin', 'Sakit'])->nullable();
+            $table->enum('status_absensi', ['Hadir', 'Terlambat', 'Alpha', 'Izin', 'Sakit'])->nullable();
             $table->enum('status_pulang', ['Tepat Waktu', 'Pulang Cepat', 'Diabsenkan Sistem'])->nullable();
             
             $table->string('durasi_bekerja', 20)->nullable();

@@ -24,7 +24,7 @@ class Absensi extends Model
         'jam_keluar',
         'foto_masuk',   
         'foto_pulang',   
-        'status_masuk',
+        'status_absensi',
         'status_pulang', 
         'durasi_bekerja',
         'ket_status_msk',

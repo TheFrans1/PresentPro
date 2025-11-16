@@ -112,7 +112,7 @@ class AbsenController extends Controller
                 'tanggal' => $today,
                 'jam_masuk' => $jamSekarang->format('H:i:s'),
                 'foto_masuk' => $fotoPath,
-                'status_masuk' => $status,
+                'status_absensi' => $status,
                 'ket_status_msk' => $keterangan, // Simpan keterangan total menit
             ]);
         } catch (\Exception $e) {
