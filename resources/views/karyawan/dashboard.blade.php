@@ -67,7 +67,7 @@
                             <p class="mb-0">Jam: <strong>{{ \Carbon\Carbon::parse($absenHariIni->jam_masuk)->format('H:i') }} WIB</strong></p>
                             
                             {{-- ================== PERUBAHAN DI SINI ================== --}}
-                            <p class="mb-0">Status: <strong>{{ $absenHariIni->status_masuk }}</strong></p>
+                            <p class="mb-0">Status: <strong>{{ $absenHariIni->status_absensi }}</strong></p>
                             {{-- ======================================================= --}}
 
                         </div>

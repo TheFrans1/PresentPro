@@ -12,24 +12,45 @@
             
             <h5 class="m-0">Riwayat Pengajuan</h5>
             
-            <form action="{{ route('admin.izin.riwayat') }}" method="GET" class="d-flex g-2">
+ <form action="{{ route('admin.izin.riwayat') }}" method="GET">
+            {{-- Gunakan Grid System Bootstrap --}}
+            <div class="row g-3 align-items-end">
                 
-                <input type="text" name="search" class="form-control form-control-sm me-1" placeholder="Cari Nama" value="{{ request('search') }}" style="width: 150px;">
+                {{-- Filter Nama --}}
+                <div class="col-lg-3 col-md-6 col-12">
+                    <input type="text" name="search" id="search" class="form-control form-control-sm" placeholder="Nama Karyawan..." value="{{ request('search') }}">
+                </div>
                 
-                <input type="text" name="filter_nik" class="form-control form-control-sm me-1" placeholder="Cari NIK" value="{{ request('filter_nik') }}" style="width: 120px;">
+                {{-- Filter NIK --}}
+                <div class="col-lg-2 col-md-6 col-12">
+                    <input type="text" name="filter_nik" id="filter_nik" class="form-control form-control-sm" placeholder="NIK..." value="{{ request('filter_nik') }}">
+                </div>
                 
-                <input type="text" name="filter_tanggal" class="form-control form-control-sm datepicker-dmy me-1" placeholder="Tgl. Diajukan" value="{{ request('filter_tanggal') }}" style="width: 150px;">
+                {{-- Filter Tanggal --}}
+                <div class="col-lg-2 col-md-6 col-12">
+                    <input type="text" name="filter_tanggal" id="filter_tanggal" class="form-control form-control-sm datepicker-dmy" placeholder="Pilih tanggal..." value="{{ request('filter_tanggal') }}">
+                </div>
                 
-                <select name="filter_status" class="form-select form-select-sm me-1" style="width: 150px;">
-                    <option value="">Semua Status</option>
-                    <option value="Disetujui" {{ request('filter_status') == 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
-                    <option value="Ditolak" {{ request('filter_status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
-                </select>
+                {{-- Filter Status --}}
+                <div class="col-lg-2 col-md-6 col-12">
+                    <select name="filter_status" id="filter_status" class="form-select form-select-sm">
+                        <option value="Disetujui" {{ request('filter_status') == 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
+                        <option value="Ditolak" {{ request('filter_status') == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                </div>
                 
-                <button type="submit" class="btn btn-primary btn-sm me-1">Cari</button>
-                <a href="{{ route('admin.izin.riwayat') }}" class="btn btn-secondary btn-sm">Reset</a>
-                
-            </form>
+                {{-- Tombol (Akan pindah ke bawah di HP) --}}
+                <div class="col-lg-3 col-md-12 col-12 d-flex justify-content-start justify-content-lg-end">
+                    <button type="submit" class="btn btn-primary btn-sm me-2">
+                        <i class="bi bi-filter"></i> Cari
+                    </button>
+                    <a href="{{ route('admin.izin.riwayat') }}" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-arrow-clockwise"></i> Reset
+                    </a>
+                </div>
+
+            </div>
+        </form>
         </div>
     </div>
     

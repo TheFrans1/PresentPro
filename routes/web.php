@@ -69,7 +69,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/approval-izin/{izin}/setujui', [IzinController::class, 'setujui'])->name('admin.izin.setujui');
         Route::post('/approval-izin/{izin}/tolak', [IzinController::class, 'tolak'])->name('admin.izin.tolak');
         Route::get('/riwayat-izin', [IzinController::class, 'riwayat'])->name('admin.izin.riwayat');
-
+        
+        Route::get('/rekap-laporan/export', [RekapController::class, 'exportExcel'])->name('admin.laporan.export');
+        
         // --- Laporan & Jadwal ---
        Route::get('/rekap-laporan', [RekapController::class, 'index'])->name('admin.laporan.index');
         Route::get('/kelola-jadwal', [JadwalController::class, 'index'])->name('admin.jadwal.index');
