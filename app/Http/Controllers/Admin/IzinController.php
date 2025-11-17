@@ -138,7 +138,7 @@ class IzinController extends Controller
                             'tanggal' => $date->format('Y-m-d')
                         ],
                         [
-                            'status_masuk' => $izin->jenis, // 'Izin' atau 'Sakit' (sesuai db)
+                            'status_absensi' => $izin->jenis, // 'Izin' atau 'Sakit' (sesuai db)
                             'ket_status_msk' => $izin->keterangan, // (sesuai db)
                             'jam_masuk' => null,
                             'jam_keluar' => null,
