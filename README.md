@@ -28,11 +28,11 @@ Karyawan memiliki fitur yang fokus pada kehadiran dan laporan pribadi, antara la
 
 ## 🧰 Teknologi yang Digunakan
 
-- **Laravel Framewor : v12 **
-- **MySQL : v8.0 **
+- **Laravel Framewor : v12**
+- **MySQL : v8.0**
 - **Blade Template Engine**
 - **Bootstrap CSS**
-- **Php : 8.3 **
+- **Php : 8.3**
 
 ---
 
@@ -80,6 +80,67 @@ Karyawan memiliki fitur yang fokus pada kehadiran dan laporan pribadi, antara la
     php artisan absensi:auto-pulang
 
 ### 👨‍💼 info akun admin
-```bash
-user : admin
-password : password
+    ```bash
+    user : admin
+    password : password
+
+## 📌 API Endpoints — WebPresent Pro
+
+Berikut adalah daftar endpoint dasar yang tersedia pada sistem WebPresent Pro:
+
+---
+
+### 🔐 **Authentication**
+| Method | Endpoint        | Deskripsi                  |
+|--------|-----------------|----------------------------|
+| POST   | `/login`        | Login karyawan/admin       |
+| POST   | `/logout`       | Logout user                |
+
+---
+
+### 👤 **Karyawan**
+| Method | Endpoint                 | Deskripsi                         |
+|--------|--------------------------|-----------------------------------|
+| GET    | `/karyawan`              | Menampilkan daftar karyawan       |
+| POST   | `/karyawan`              | Menambah akun karyawan baru       |
+| PUT    | `/karyawan/{id}`         | Mengubah data karyawan            |
+| DELETE | `/karyawan/{id}`         | Menghapus akun karyawan           |
+
+---
+
+### 📝 **Jenis Absensi**
+| Method | Endpoint                    | Deskripsi                                   |
+|--------|------------------------------|--------------------------------------------|
+| GET    | `/jenis-absensi`            | Menampilkan semua jenis absensi             |
+| POST   | `/jenis-absensi`            | Menambah jenis absensi baru                 |
+| PUT    | `/jenis-absensi/{id}`       | Mengubah jenis absensi                      |
+| DELETE | `/jenis-absensi/{id}`       | Menghapus jenis absensi                     |
+
+---
+
+### 📍 **Absensi Karyawan**
+| Method | Endpoint                      | Deskripsi                                  |
+|--------|-------------------------------|--------------------------------------------|
+| POST   | `/absen/masuk`                | Absensi masuk karyawan                     |
+| POST   | `/absen/pulang`               | Absensi pulang karyawan                    |
+| GET    | `/absen`                      | Melihat semua data absensi                 |
+| GET    | `/absen/{id}`                 | Melihat detail absensi tertentu            |
+
+---
+
+### 📨 **Surat Izin / Sakit**
+| Method | Endpoint                 | Deskripsi                                |
+|--------|---------------------------|--------------------------------------------|
+| POST   | `/izin`                  | Mengajukan surat izin/sakit               |
+| GET    | `/izin`                  | Melihat semua pengajuan surat             |
+| PUT    | `/izin/{id}/setujui`     | Admin menyetujui surat                    |
+| PUT    | `/izin/{id}/tolak`       | Admin menolak surat                       |
+
+---
+
+### 📤 **Export Laporan Absensi**
+| Method | Endpoint                                   | Deskripsi                        |
+|--------|---------------------------------------------|----------------------------------|
+| GET    | `/export/absensi`                           | Export seluruh absensi ke Excel |
+| GET    | `/export/absensi/{id_karyawan}`             | Export absensi 1 karyawan       |
+
