@@ -1,32 +1,29 @@
 # PresentPro
 
-Sistem backend API berbasis Laravel untuk manajemen absensi karyawan dan admin.  
-Memiliki dua tipe pengguna: **Admin** dan **Karyawan**, dengan hak akses berbeda.  
+WebPresent Pro adalah sebuah website absensi karyawan berbasis Laravel yang menyediakan sistem manajemen kehadiran dengan dua jenis pengguna utama, yaitu Admin dan Karyawan.
+---
+
+## 👨‍💼 Fitur untuk Admin
+
+Admin memiliki akses penuh untuk mengelola seluruh data dalam sistem, termasuk:
+•	CRUD Jenis Absensi (Hadir, Sakit, Izin, Cuti, dan lainnya)
+•	CRUD Akun Karyawan (membuat, mengubah, menghapus, atau menonaktifkan akun)
+•	Melihat seluruh riwayat absensi karyawan
+•	Menyetujui atau menolak pengajuan surat (izin/sakit) dari karyawan
+•	Mengekspor data absensi karyawan ke file (Excel / CSV)
+
 
 ---
 
-## 🎯 Fitur Utama
+## 👨‍🏭 Fitur untuk Karyawan
 
-- Autentikasi **Admin** dan **Karyawan**  
-- Role-based access control (Admin vs Karyawan)  
-- CRUD data karyawan (Admin)  
-- Karyawan bisa melihat & mengubah profil sendiri  
-- Endpoint API RESTful  
-- Respon JSON  
-- Manajemen absensi (absensi masuk / keluar) — *(asumsi, kalau ada fitur absensi, kalau tidak bisa dihapus bagian ini)*  
-- Pencarian / filter data karyawan (misal berdasarkan departemen, status)  
-- Migrasi dan seeder database untuk setup awal  
-- Dokumentasi SQL (file `.sql` untuk backup / import database)
+Karyawan memiliki akses terbatas yang fokus pada aktivitas kehadiran, yaitu:
+•	Melakukan absensi masuk dan absensi pulang
+•	Melihat riwayat absensi pribadi
+•	Mengajukan surat izin atau sakit kepada admin
+•	Mengubah profil pribadi (jika diizinkan)
 
----
 
-## 🔧 Teknologi yang Digunakan
-
-- **Framework**: Laravel (versi sesuai proyek)  
-- **Database**: MySQL (atau sesuaikan dengan yang kamu pakai)  
-- **Autentikasi**: Laravel Sanctum (atau metode autentikasi lain, sesuaikan)  
-- **API Style**: RESTful  
-- **Response**: JSON  
 
 ---
 
