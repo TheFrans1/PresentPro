@@ -12,37 +12,26 @@ use Illuminate\Support\Str;
 
 class IzinController extends Controller
 {
-    /**
-     * Menampilkan halaman riwayat pengajuan izin milik user.
-     */
+    
     public function index()
     {
-        // Ambil ID user yang sedang login
+        
         $userId = Auth::id();
 
-        // Ambil data izin HANYA milik user tsb, urutkan dari yg terbaru
         $riwayatIzin = Izin::where('user_id', $userId)
                             ->orderBy('tanggal_pengajuan', 'desc')
                             ->get();
         
-        // Tampilkan view dan kirim data
         return view('karyawan.izin.riwayat', compact('riwayatIzin'));
     }
 
-    /**
-     * Menampilkan form untuk membuat pengajuan izin.
-     */
     public function create()
     {
         return view('karyawan.izin.create');
     }
 
-    /**
-     * Menyimpan pengajuan izin baru ke database.
-     */
     public function store(Request $request)
     {
-        // 1. Validasi input (Kode Anda sudah benar)
         $request->validate(
             [
                 'jenis' => 'required|in:Izin,Sakit',
@@ -63,31 +52,19 @@ class IzinController extends Controller
             ]
         );
 
-        // 2. Handle File Upload
         $user = Auth::user();
         $file = $request->file('file_bukti');
 
-        // 1. Ambil Jenis (Izin/Sakit) dan bersihkan
-        // $request->jenis akan berisi "Izin" atau "Sakit"
         $jenis = strtolower($request->jenis); 
 
-        // 2. Ambil Nama User dan bersihkan (menggunakan 'nama' sesuai permintaan Anda)
-        // "Frans Theo" -> "frans_theo"
         $namaUserSlug = Str::slug($user->nama, '_'); 
 
-        // 3. Ambil Ekstensi File
         $extension = $file->getClientOriginalExtension(); // misal: "pdf"
 
-        // 4. Buat Nama File Unik (Sesuai permintaan Anda + timestamp)
-        // Hasil: "izin_frans_theo_1678886400.pdf"
         $fileName = $jenis . '_' . $namaUserSlug . '_' . time() . '.' . $extension;
         
-        // 5. Simpan file ke folder 'surat_izin'
         $file->storeAs('surat_izin', $fileName, 'public');
 
-        // ==========================================================
-
-        // 3. Simpan data ke database
         Izin::create([
             'user_id' => $user->id,
             'jenis' => $request->jenis,
@@ -99,7 +76,6 @@ class IzinController extends Controller
             'tanggal_pengajuan' => now(),
         ]);
 
-        // 4. Redirect kembali ke dashboard dengan pesan sukses
         return redirect()->route('karyawan.dashboard')
                          ->with('success', 'Pengajuan izin/sakit Anda telah berhasil dikirim dan menunggu persetujuan.');
     }

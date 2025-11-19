@@ -21,7 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'nama',
-        'email', // <-- TAMBAHKAN INI
+        'email', 
         'nik',
         'username',
         'jabatan',
@@ -32,10 +32,6 @@ class User extends Authenticatable
         'status',
         'foto',
     ];
-    // ==========================================================
-    // == AKHIR PERBAIKAN ==
-    // ==========================================================
-
 
     /**
      * Atribut yang harus disembunyikan (hidden).
@@ -47,17 +43,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Relasi: Satu User bisa memiliki BANYAK data absensi.
-     */
     public function absensi()
     {
         return $this->hasMany(Absensi::class);
     }
 
-    /**
-     * Relasi: Satu User bisa memiliki BANYAK data izin.
-     */
+
     public function izin()
     {
         return $this->hasMany(Izin::class);

@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ route('karyawan.dashboard') }}">
-                🏢 SmartPresence
+                PresencePro
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#karyawanNav">
                 <span class="navbar-toggler-icon"></span>
@@ -28,11 +28,7 @@
                             <i class="bi bi-house-door-fill"></i> Dashboard
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('karyawan.izin.create') ? 'active' : '' }}" href="{{ route('karyawan.izin.create') }}">
-                            <i class="bi bi-journal-plus"></i> Buat Pengajuan
-                        </a>
-                    </li>
+                   
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('karyawan.izin.riwayat') ? 'active' : '' }}" href="{{ route('karyawan.izin.riwayat') }}">
                             <i class="bi bi-clock-history"></i> Riwayat Saya

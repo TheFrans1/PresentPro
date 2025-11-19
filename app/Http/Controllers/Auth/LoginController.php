@@ -1,6 +1,6 @@
 <?php
 
-// File: app/Http/Controllers/Auth/LoginController.php
+
 
 namespace App\Http\Controllers\Auth;
 
@@ -10,13 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    // Menampilkan halaman form login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Memproses login
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -24,14 +22,11 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Cek apakah user juga 'aktif'
         $credentials['status'] = 'aktif';
 
-        // Mencoba melakukan login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Cek role dan arahkan
             $user = Auth::user();
             if ($user->role == 'admin') {
                 return redirect()->intended('/admin/dashboard');
@@ -40,11 +35,9 @@ class LoginController extends Controller
             }
         }
 
-        // Jika gagal login
         return back()->with('error', 'Username atau Password salah.');
     }
 
-    // Memproses logout
     public function logout(Request $request)
     {
         Auth::logout();

@@ -15,13 +15,7 @@ return new class extends Migration
             $table->string('hari', 20); 
             $table->time('jam_masuk'); 
             $table->time('jam_keluar'); 
-            
-            // ==================================================
-            // --- TAMBAHKAN BARIS INI ---
-            // Kita beri default 10 sesuai desain admin Anda
             $table->integer('toleransi')->default(10); 
-            // ==================================================
-            
             $table->timestamps();
         });
     }

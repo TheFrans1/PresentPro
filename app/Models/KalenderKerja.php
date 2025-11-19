@@ -1,5 +1,4 @@
 <?php
-// File: app/Models/KalenderKerja.php
 
 namespace App\Models;
 
@@ -10,9 +9,8 @@ class KalenderKerja extends Model
 {
     use HasFactory;
 
-    // Nama tabel-nya 'kalender_kerja'
+    
     protected $table = 'kalender_kerja';
 
-    // Izinkan Mass Assignment
     protected $guarded = [];
 }

@@ -23,14 +23,16 @@ class Izin extends Model
      */
     protected $guarded = []; // <-- Ini penting agar kita bisa 'create' dan 'update'
 
-    /**
-     * Mendefinisikan relasi "milik" (belongsTo) ke model User.
-     * Satu data izin dimiliki oleh satu user.
-     */
+
     public function user()
     {
-        // 'user_id' adalah foreign key di tabel 'izin'
-        // 'id' adalah primary key di tabel 'users'
+    
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function absensi()
+    {
+       
+    }
+
 }

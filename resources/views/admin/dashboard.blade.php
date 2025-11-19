@@ -1,113 +1,176 @@
 @extends('layouts.admin')
-@section('title', 'Admin Dashboard')
-@section('page-title', 'Dashboard')
+
+@section('title', 'Dashboard Monitoring')
+@section('page-title', 'Dashboard Monitoring Harian')
+
+@push('styles')
+<style>
+    
+    .simple-card {
+        border: 1px solid #e3e6f0;
+        border-radius: 0.5rem;
+        background: #fff;
+        transition: transform 0.2s;
+    }
+    .simple-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.05) !important;
+    }
+    
+    
+    .icon-box {
+        width: 48px; height: 48px; border-radius: 0.5rem;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.5rem; margin-right: 1rem;
+    }
+    
+    .bg-light-primary { background-color: #eef2ff; color: #4e73df; }
+    .bg-light-success { background-color: #e6fffa; color: #1cc88a; }
+    .bg-light-warning { background-color: #fffbea; color: #f6c23e; }
+    .bg-light-info    { background-color: #e0f7fa; color: #36b9cc; }
+    .bg-light-secondary { background-color: #f8f9fa; color: #858796; }
+    .bg-light-danger  { background-color: #ffeef0; color: #e74a3b; }
+</style>
+@endpush
+
 @section('content')
 
-<div class="row">
-
-    <div class="col-xl-3 col-md-6 mb-4 stats-card-animate">
-        <div class="card border-start-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col me-2">
-                        <div class="text-xs fw-bold text-primary text-uppercase mb-1">
-                            Total Karyawan (Aktif)</div>
-                        <div class="h5 mb-0 fw-bold text-gray-800">...</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="bi bi-people-fill fs-2 text-gray-300"></i>
-                    </div>
-                </div>
+{{-- 6 KARTU STATISTIK --}}
+<div class="row g-3 mb-4">
+    {{-- Kartu 1: Total --}}
+    <div class="col-md-4 col-lg-2">
+        <div class="card simple-card h-100 shadow-sm">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="icon-box bg-light-primary"><i class="bi bi-people-fill"></i></div>
+                <div><div class="text-muted small fw-bold text-uppercase">Karyawan</div><div class="h4 mb-0 fw-bold text-dark">{{ $totalKaryawan }}</div></div>
             </div>
         </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-4 stats-card-animate">
-        <div class="card border-start-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col me-2">
-                        <div class="text-xs fw-bold text-success text-uppercase mb-1">
-                            Hadir (Hari Ini)</div>
-                        <div class="h5 mb-0 fw-bold text-gray-800">...</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="bi bi-clipboard-check-fill fs-2 text-gray-300"></i>
-                    </div>
-                </div>
+    {{-- Kartu 2: Hadir --}}
+    <div class="col-md-4 col-lg-2">
+        <div class="card simple-card h-100 shadow-sm">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="icon-box bg-light-success"><i class="bi bi-check-lg"></i></div>
+                <div><div class="text-muted small fw-bold text-uppercase">Hadir</div><div class="h4 mb-0 fw-bold text-dark">{{ $hadir }}</div></div>
             </div>
         </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-4 stats-card-animate">
-        <div class="card border-start-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col me-2">
-                        <div class="text-xs fw-bold text-warning text-uppercase mb-1">
-                            Terlambat (Hari Ini)</div>
-                        <div class="h5 mb-0 fw-bold text-gray-800">...</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="bi bi-clock-fill fs-2 text-gray-300"></i>
-                    </div>
-                </div>
+    {{-- Kartu 3: Terlambat --}}
+    <div class="col-md-4 col-lg-2">
+        <div class="card simple-card h-100 shadow-sm">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="icon-box bg-light-warning"><i class="bi bi-clock-history"></i></div>
+                <div><div class="text-muted small fw-bold text-uppercase">Terlambat</div><div class="h4 mb-0 fw-bold text-dark">{{ $terlambat }}</div></div>
             </div>
         </div>
     </div>
-
-    <div class="col-xl-3 col-md-6 mb-4 stats-card-animate">
-        <div class="card border-start-danger shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col me-2">
-                        <div class="text-xs fw-bold text-danger text-uppercase mb-1">
-                            Menunggu Approval</div>
-                        <div class="h5 mb-0 fw-bold text-gray-800">...</div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="bi bi-exclamation-triangle-fill fs-2 text-gray-300"></i>
-                    </div>
+    {{-- Kartu 4: Izin/Sakit --}}
+    <div class="col-md-4 col-lg-2">
+        <div class="card simple-card h-100 shadow-sm">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="icon-box bg-light-info"><i class="bi bi-file-medical"></i></div>
+                <div><div class="text-muted small fw-bold text-uppercase">Izin/Sakit</div><div class="h4 mb-0 fw-bold text-dark">{{ $izinSakit }}</div></div>
+            </div>
+        </div>
+    </div>
+    {{-- Kartu 5: Alpha --}}
+    <div class="col-md-4 col-lg-2">
+        <div class="card simple-card h-100 shadow-sm">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="icon-box bg-light-danger"><i class="bi bi-x-circle-fill"></i></div>
+                <div><div class="text-muted small fw-bold text-uppercase">Alpha</div><div class="h4 mb-0 fw-bold text-dark">{{ $alpha }}</div></div>
+            </div>
+        </div>
+    </div>
+    {{-- Kartu 6: Surat --}}
+    <div class="col-md-4 col-lg-2">
+        <div class="card simple-card h-100 shadow-sm">
+            <div class="card-body d-flex align-items-center p-3">
+                <div class="icon-box bg-light-secondary position-relative">
+                    <i class="bi bi-envelope-paper"></i>
+                    @if($pengajuanBaru > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+                    @endif
                 </div>
+                <div><div class="text-muted small fw-bold text-uppercase">Surat Baru</div><div class="h4 mb-0 fw-bold text-dark">{{ $pengajuanBaru }}</div></div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xl-8 col-lg-7">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 fw-bold text-primary">Grafik Statistik Absensi Bulanan</h6>
-            </div>
-            <div class="card-body">
-                <div class="chart-area" style="height: 320px;">
-                    <p class="text-center text-muted pt-5">... (Fitur Grafik akan diimplementasikan) ...</p>
-                    <canvas id="absensiChart"></canvas>
-                </div>
-            </div>
-        </div>
+{{-- TABEL MONITORING HARIAN (TANPA FOTO, ADA STATUS PULANG) --}}
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom">
+        <h6 class="m-0 fw-bold text-primary">
+            <i class=""></i><span class="text-dark">{{ $hariIni->translatedFormat('l, d F Y') }}</span>
+        </h6>
+        <a href="{{ route('admin.dashboard') }}" class="btn btn-sm btn-primary">
+            <i class="bi bi-arrow-clockwise"></i> Refresh Data
+        </a>
     </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center" style="width: 50px;">#</th>
+                        <th scope="col">Nama Karyawan</th>
+                        <th scope="col">Jabatan</th>
+                        <th scope="col" class="text-center">Status Masuk</th>
+                        <th scope="col" class="text-center">Status Pulang</th> {{-- KOLOM BARU --}}
+                        <th scope="col" class="text-center">Jam Masuk</th>
+                        <th scope="col" class="text-center">Jam Pulang</th>
+                        <th scope="col">Keterangan / Detail</th>
+                        {{-- KOLOM FOTO DIHAPUS --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($monitoringHarian as $index => $data)
+                        <tr>
+                            <th scope="row" class="text-center">{{ $loop->iteration }}</th>
+                            <td class="fw-bold text-dark">{{ $data['nama'] }}</td>
+                            <td class="text-muted small">{{ $data['jabatan'] }}</td>
 
-    <div class="col-xl-4 col-lg-5">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 fw-bold text-primary">Pengajuan Izin/Sakit Terbaru</h6>
-            </div>
-            <div class="card-body">
-                <p class="text-center text-muted">... (Belum ada data pengajuan) ...</p>
-            </div>
+                            {{-- Kolom Status Masuk --}}
+                            <td class="text-center">
+                                <span class="badge bg-{{ $data['badge'] }} px-3 py-2 rounded-pill fw-normal border border-{{ $data['badge'] }}">
+                                    {{ $data['status'] }}
+                                </span>
+                            </td>
+
+                            {{-- Kolom Status Pulang (Baru) --}}
+                            <td class="text-center">
+                                @php
+                                    $statusPulang = $data['status_pulang'] ?? '-';
+                                    $badgePulang = 'secondary'; // Default abu-abu
+
+                                    if ($statusPulang == 'Tepat Waktu') $badgePulang = 'success';
+                                    elseif ($statusPulang == 'Pulang Cepat') $badgePulang = 'warning text-dark';
+                                    elseif ($statusPulang == 'Diabsenkan Sistem') $badgePulang = 'danger';
+                                @endphp
+                                
+                                @if($statusPulang != '-')
+                                    <span class="badge bg-{{ $badgePulang }} px-3 py-2 rounded-pill fw-normal border border-{{ $badgePulang }}">
+                                        {{ $statusPulang }}
+                                    </span>
+                                @else
+                                    <span class="text-muted small">-</span>
+                                @endif
+                            </td>
+
+                            <td class="text-center fw-bold text-dark">{{ $data['jam_masuk'] }}</td>
+                            <td class="text-center fw-bold text-dark">{{ $data['jam_keluar'] }}</td>
+                            <td class="small text-muted">{{ \Illuminate\Support\Str::limit($data['keterangan'], 50) }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">Belum ada data karyawan aktif hari ini.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<style>
-.card .border-start-primary { border-left: 4px solid #4e73df !important; }
-.card .border-start-success { border-left: 4px solid #1cc88a !important; }
-.card .border-start-warning { border-left: 4px solid #f6c23e !important; }
-.card .border-start-danger  { border-left: 4px solid #e74a3b !important; }
-.card .text-xs { font-size: 0.8rem; }
-.card .text-gray-300 { color: #dddfeb !important; }
-</style>
 
 @endsection

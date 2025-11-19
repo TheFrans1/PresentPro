@@ -1,8 +1,6 @@
 @extends('layouts.admin')
 
 @section('title', 'Kelola Jadwal Kerja')
-@section('page-title', 'Kelola Jadwal Kerja')
-
 @section('content')
 
 {{-- Notifikasi Sukses (Sudah Benar) --}}
@@ -36,7 +34,7 @@
 
 <div class="card shadow">
     <div class="card-header">
-        <h5 class="m-0">Pengaturan Jam Kerja Default</h5>
+        <h5 class="m-0">Pengaturan Jam Kerja</h5>
     </div>
     <div class="card-body">
         <form action="{{ route('admin.jadwal.update') }}" method="POST">

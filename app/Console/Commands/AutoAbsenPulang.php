@@ -27,8 +27,7 @@ class AutoAbsenPulang extends Command
         
         $today = Carbon::today();
         
-        // 1. Cari semua karyawan yang sudah absen masuk HARI INI
-        //    tapi BELUM absen pulang
+     
         $karyawanLupaAbsen = Absensi::whereDate('tanggal', $today)
                                 ->whereNotNull('jam_masuk') // Sudah absen masuk
                                 ->whereNull('jam_keluar')   // Belum absen pulang
@@ -50,12 +49,12 @@ class AutoAbsenPulang extends Command
                 $jamMasuk = Carbon::parse($absen->jam_masuk);
                 $durasiKerja = $jamOtomatis->diff($jamMasuk)->format('%H jam %i menit');
 
-                // Update data absensi
+             
                 $absen->update([
                     'jam_keluar' => $jamOtomatis->format('H:i:s'),
                     'durasi_bekerja' => $durasiKerja,
                     'status_pulang' => 'Diabsenkan Sistem',
-                    // Kita biarkan foto_pulang NULL
+                    
                 ]);
 
                 $this->info('User ID ' . $absen->user_id . ' berhasil diabsenkan sistem.');

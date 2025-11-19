@@ -14,9 +14,7 @@ use Illuminate\Support\Str;
 
 class AbsenController extends Controller
 {
-    /**
-     * Menampilkan dashboard dinamis untuk karyawan.
-     */
+    
     public function index()
     {
         $userId = Auth::id();
@@ -48,11 +46,6 @@ class AbsenController extends Controller
         ]);
     }
 
-
-    /**
-     * Menyimpan data absen MASUK.
-     * (DIKEMBALIKAN: Logika Keterangan dihitung dalam TOTAL MENIT)
-     */
     public function storeMasuk(Request $request)
     {
         $userId = Auth::id();
@@ -69,27 +62,26 @@ class AbsenController extends Controller
             return redirect()->back()->with('error', 'Tidak ada jadwal kerja aktif untuk hari ini.');
         }
 
-        // Tentukan Status
         $jamMasukJadwal = Carbon::parse($jadwal->jam_masuk);
         $jamBatasTelat = $jamMasukJadwal->addMinutes($jadwal->toleransi ?? 0);
         $jamSekarang = Carbon::now();
         
         $status = ($jamSekarang->gt($jamBatasTelat)) ? 'Terlambat' : 'Hadir';
         
-        // ================== LOGIKA KETERANGAN (TOTAL MENIT) ==================
+
         $keterangan = null; // Default NULL jika Hadir
 
         if ($status == 'Terlambat') {
-            // Selisih dalam menit dari batas telat ke waktu sekarang
+            
             $menitTelat = $jamBatasTelat->diffInMinutes($jamSekarang, false);
-            // Menghilangkan nilai minus jika ada
+           
             if ($menitTelat < 0) {
                 $menitTelat = abs($menitTelat);
             }
-            // Konversi ke jam dan menit
+
             $jam = intdiv($menitTelat, 60);        // bagi 60 untuk dapat jam
             $menit = $menitTelat % 60;            // sisa menit
-            // Format keterangannya
+            
             if ($jam > 0 && $menit > 0) {
                 $keterangan = "Terlambat {$jam} jam {$menit} menit";
             } elseif ($jam > 0) {
@@ -99,13 +91,13 @@ class AbsenController extends Controller
             }
         }
 
-        // Proses simpan foto MASUK
+      
         $fotoPath = $this->simpanFoto($request->input('image'), 'masuk');
         if ($fotoPath === false) {
              return redirect()->back()->with('error', 'Gagal menyimpan foto. Format tidak valid.');
         }
 
-        // Simpan ke database
+       
         try {
             Absensi::create([
                 'user_id' => $userId,
@@ -123,10 +115,6 @@ class AbsenController extends Controller
         return redirect()->back()->with('success', 'Absensi masuk berhasil dicatat. Status: ' . $status);
     }
 
-    /**
-     * Menyimpan data absen KELUAR.
-     * (Logika ini sudah benar)
-     */
     public function storeKeluar(Request $request)
     {
         $userId = Auth::id();
@@ -137,7 +125,6 @@ class AbsenController extends Controller
             return redirect()->back()->with('error', 'Kondisi absen tidak valid.');
         }
 
-        // Ambil Jadwal Kerja hari ini
         $dayMap = ['Monday' => 'Senin', 'Tuesday' => 'Selasa', 'Wednesday' => 'Rabu', 'Thursday' => 'Kamis', 'Friday' => 'Jumat', 'Saturday' => 'Sabtu', 'Sunday' => 'Minggu'];
         $namaHariIni = $dayMap[$today->format('l')];
         $jadwal = JadwalKerja::where('hari', $namaHariIni)->first();
@@ -146,25 +133,24 @@ class AbsenController extends Controller
             return redirect()->back()->with('error', 'Tidak ada jadwal kerja aktif (pulang) untuk hari ini.');
         }
 
-        // Tentukan Status Pulang (Sesuai permintaan Anda)
+        
         $jamPulangJadwal = Carbon::parse($jadwal->jam_keluar); // Misal: 16:00
         $jamSekarang = Carbon::now();
         
-        $statusPulang = 'Tepat Waktu'; // Default
-        
-        // Jika jam sekarang KURANG DARI jam pulang di jadwal
+        $statusPulang = 'Tepat Waktu'; 
+       
         if ($jamSekarang->lt($jamPulangJadwal)) { // lt = less than
             $statusPulang = 'Pulang Cepat';
         } 
-        // Logika Lembur sudah dihapus
+        
 
-        // Proses simpan foto PULANG
+        
         $fotoPath = $this->simpanFoto($request->input('image'), 'pulang');
         if ($fotoPath === false) {
              return redirect()->back()->with('error', 'Gagal menyimpan foto. Format tidak valid.');
         }
         
-        // Update database
+       
         try {
             $jamMasuk = Carbon::parse($absenHariIni->jam_masuk);
             $durasiKerja = $jamSekarang->diff($jamMasuk)->format('%H jam %i menit');
@@ -183,10 +169,7 @@ class AbsenController extends Controller
         return redirect()->back()->with('success', 'Absensi keluar berhasil dicatat. Status: ' . $statusPulang);
     }
 
-    /**
-     * Helper function untuk menyimpan foto selfie (Base64).
-     * (Logika ini sudah benar)
-     */
+    
     private function simpanFoto($dataUri, $jenis)
     {
         if (preg_match('/^data:image\/(\w+);base64,/', $dataUri, $type)) {

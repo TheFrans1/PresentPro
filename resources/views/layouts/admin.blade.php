@@ -3,41 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Dashboard') - SmartPresence</title>
+    <title>@yield('title', 'Admin Dashboard') -SmartPresence</title>
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        /* ============================================= */
-        /* == 1. PERBAIKAN SCROLLBAR GANDA == */
-        /* ============================================= */
         body {
             display: flex;
-            height: 100vh; /* Kunci tinggi body ke 100% layar */
+            height: 100vh; 
             flex-direction: column;
-            overflow: hidden; /* Matikan scrollbar di body */
+            overflow: hidden;
         }
         .main-wrapper {
             display: flex;
             flex: 1;
-            overflow: hidden; /* Pastikan wrapper ini juga tidak scroll */
+            overflow: hidden; 
         }
         .content-wrapper {
             flex:1;
             padding: 1rem;
             background-color: #f8f9fa;
-            overflow-y: auto; /* JADIKAN INI SATU-SATUNYA SCROLLBAR */
-            min-height: auto; /* Hapus min-height vh */
+            overflow-y: auto;
+            min-height: auto; 
         }
-        /* ============================================= */
-        /* == AKHIR PERBAIKAN == */
-        /* ============================================= */
-
-        /* Style Sidebar (Biarkan tetap sama) */
+    
         .sidebar {
             width: 250px;
             min-height: 100vh;
-            background-color: #2c3e50;
+            background-color:rgba(33, 36, 41);
             color: white;
             padding-top: 1rem;
         }
@@ -61,9 +54,9 @@
             color: #95a5a6 !important;
         }
         
-        /* Style Navbar Atas (Biarkan tetap sama) */
+       
         .navbar-brand-top {
-            background-color: #2c3e50;
+            background-color:rgba(33, 36, 41);
             color: white !important;
             padding-left: 1rem;
             padding-right: 1rem;
@@ -83,7 +76,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg p-0 top-navbar">
-        <a class="navbar-brand navbar-brand-top" href="{{ route('admin.dashboard') }}">
+        <a class="navbar-brand navbar-brand-top center" href="{{ route('admin.dashboard') }}">
             SmartPresence
         </a>
         

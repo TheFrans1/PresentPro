@@ -9,14 +9,10 @@ class Absensi extends Model
 {
     use HasFactory;
 
-    /**
-     * Tentukan nama tabel jika tidak jamak 's' (opsional tapi bagus)
-     */
+    
     protected $table = 'absensi';
 
-    /**
-     * Kolom yang boleh diisi oleh create() atau update()
-     */
+    
     protected $fillable = [
        'user_id',
         'tanggal',
@@ -30,11 +26,12 @@ class Absensi extends Model
         'ket_status_msk',
     ];
 
-    /**
-     * Relasi ke User (Karyawan)
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function izin()
+    {
+         return $this->hasOne(Izin::class, 'user_id', 'user_id');
     }
 }

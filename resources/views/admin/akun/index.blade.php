@@ -13,23 +13,18 @@
         min-width: auto;
     }
 
-    /* ============================================= */
-    /* == 1. INI ADALAH STYLE BARU ANDA == */
-    /* ============================================= */
-    /* Ini adalah 'bingkai' yang akan menampung tabel */
+
     .table-scroll-wrapper {
       position: relative;
-      /* Tentukan tinggi maksimal. 60vh = 60% tinggi layar */
       max-height: 70vh; 
-      overflow-y: auto; /* Ini yang membuat <tbody> bisa di-scroll */
+      overflow-y: auto;
     }
 
-    /* Ini membuat header <th> "lengket" di atas */
     .table-scroll-wrapper thead th {
       position: sticky;
       top: 0;
       z-index: 10;
-      background-color: #212529; /* Warna table-dark */
+      background-color: #212529; 
     }
 </style>
 

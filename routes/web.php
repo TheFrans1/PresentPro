@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\JadwalController;
 use App\Http\Controllers\Karyawan\IzinController as KaryawanIzinController;
 use App\Http\Controllers\Karyawan\AbsenController as KaryawanAbsenController; // <-- Ini penting
 use App\Http\Controllers\Admin\RekapController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 /*
@@ -76,7 +77,8 @@ Route::middleware('auth')->group(function () {
        Route::get('/rekap-laporan', [RekapController::class, 'index'])->name('admin.laporan.index');
         Route::get('/kelola-jadwal', [JadwalController::class, 'index'])->name('admin.jadwal.index');
         Route::put('/kelola-jadwal', [JadwalController::class, 'update'])->name('admin.jadwal.update');
-    
+        
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     }); // <-- Akhir Grup Admin
 
 
