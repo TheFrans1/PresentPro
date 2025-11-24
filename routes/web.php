@@ -12,6 +12,7 @@ use App\Http\Controllers\Karyawan\IzinController as KaryawanIzinController;
 use App\Http\Controllers\Karyawan\AbsenController as KaryawanAbsenController; // <-- Ini penting
 use App\Http\Controllers\Admin\RekapController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\ProfileController;
 
 
 /*
@@ -38,6 +39,11 @@ Route::middleware('guest')->group(function () {
 // RUTE UNTUK USER YANG SUDAH LOGIN
 // ==========================================================
 Route::middleware('auth')->group(function () {
+
+     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::post('/profile/update-password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.update.password');
 
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 

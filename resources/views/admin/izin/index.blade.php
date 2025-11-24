@@ -49,14 +49,18 @@
                         <td>{{ $izin->keterangan }}</td>
 
                         <td>
-                            <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" 
-                               target="_blank" 
-                               class="btn btn-primary btn-sm">
-                                Lihat
-                            </a>
-                            <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" class="btn btn-primary btn-sm" title="Unduh File" download>
+                          <div class="btn-group btn-group-sm">
+                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" 
+                                       class="btn btn-outline-primary"
+                                       target="_blank">
+                                        <i class="bi bi-eye-fill"></i> Lihat
+                                    </a>
+                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}"
+                                       class="btn btn-primary btn-sm"
+                                       download>
                                         <i class="bi bi-download"></i>
                                     </a>
+                                </div>
                         </td>
 
                         <td>

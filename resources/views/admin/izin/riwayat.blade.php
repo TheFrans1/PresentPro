@@ -95,7 +95,7 @@
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" 
-                                       class="btn btn-primary btn-sm"
+                                       class="btn btn-outline-primary"
                                        target="_blank">
                                         <i class="bi bi-eye-fill"></i> Lihat
                                     </a>

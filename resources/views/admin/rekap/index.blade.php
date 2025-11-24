@@ -210,22 +210,25 @@
                         </td>
 
                         {{-- ======================= DATA IZIN ======================= --}}
-                        <td>{{ $absen->izin->tanggal_pengajuan ?? '-' }}</td>
-                        <td>{{ $absen->izin->tanggal_mulai ?? '-' }}</td>
-                        <td>{{ $absen->izin->tanggal_selesai ?? '-' }}</td>
+                        {{-- ======================= DATA IZIN ======================= --}}
+                        <td>{{ $absen->izin_tanggal_pengajuan ?? '-' }}</td>
+                        <td>{{ $absen->izin_tanggal_mulai ?? '-' }}</td>
+                        <td>{{ $absen->izin_tanggal_selesai ?? '-' }}</td>
 
                         <td class="text-center">
-                            @if(isset($absen->izin) && $absen->izin->file_bukti)
-                                <a href="{{ asset('storage/bukti/' . $absen->izin->file_bukti) }}" target="_blank" class="btn btn-sm btn-info">
-                                    View
+                            @if(isset($absen->izin_file_bukti) && $absen->izin_file_bukti)
+                                <a href="{{ asset('storage/surat_izin/' . $absen->izin_file_bukti) }}" 
+                                target="_blank" 
+                                class="btn btn-sm btn-info">
+                                    Lihat
                                 </a>
                             @else
                                 -
                             @endif
                         </td>
 
-                        <td>
-                            {{ $absen->izin->status_approval ?? '-' }}
+                        <td>{{ $absen->izin_status_approval ?? '-' }}</td>
+
                         </td>
                     </tr>
                     @empty
