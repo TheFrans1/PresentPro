@@ -20,6 +20,7 @@ return new class extends Migration
     $table->text('keterangan');
     $table->string('file_bukti', 255);
     $table->enum('status_approval', ['Pending', 'Disetujui', 'Ditolak'])->default('Pending');
+    $table->text('alasan_penolakan')->nullable();
     $table->timestamp('tanggal_pengajuan')->useCurrent();
     $table->timestamps();
 });

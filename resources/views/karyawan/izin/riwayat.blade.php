@@ -23,7 +23,9 @@
                     @forelse ($riwayatIzin as $izin)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
+
                             <td>{{ \Carbon\Carbon::parse($izin->tanggal_pengajuan)->format('d F Y') }}</td>
+
                             <td>
                                 @if ($izin->jenis == 'Izin')
                                     <span class="badge bg-info">Izin</span>
@@ -31,29 +33,45 @@
                                     <span class="badge bg-warning text-dark">Sakit</span>
                                 @endif
                             </td>
-                            <td>{{ \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d F Y') }} - {{ \Carbon\Carbon::parse($izin->tanggal_selesai)->format('d F Y') }}</td>
+
+                            <td>{{ \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d F Y') }} - 
+                                {{ \Carbon\Carbon::parse($izin->tanggal_selesai)->format('d F Y') }}</td>
+
                             <td>{{ $izin->keterangan }}</td>
-                            
+
                             <td>
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" class="btn btn-outline-primary" target="_blank" title="Lihat File">
+                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" 
+                                       class="btn btn-outline-primary" target="_blank" title="Lihat File">
                                         <i class="bi bi-eye-fill"></i> Lihat
                                     </a>
-                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" class="btn btn-outline-secondary" title="Unduh File" download>
+                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" 
+                                       class="btn btn-outline-secondary" title="Unduh File" download>
                                         <i class="bi bi-download"></i>
                                     </a>
                                 </div>
                             </td>
-                            
+
                             <td>
                                 @if ($izin->status_approval == 'Pending')
                                     <span class="badge bg-secondary">Pending</span>
+
                                 @elseif ($izin->status_approval == 'Disetujui')
                                     <span class="badge bg-success">Disetujui</span>
+
                                 @elseif ($izin->status_approval == 'Ditolak')
                                     <span class="badge bg-danger">Ditolak</span>
+
+                                    @if ($izin->alasan_penolakan)
+                                        <div class="mt-1">
+                                            <small class="text-danger">
+                                                <strong>Alasan:</strong> {{ $izin->alasan_penolakan }}
+                                            </small>
+                                        </div>
+                                    @endif
                                 @endif
                             </td>
+
                         </tr>
                     @empty
                         <tr>

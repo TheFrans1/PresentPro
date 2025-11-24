@@ -146,18 +146,20 @@ class IzinController extends Controller
     }
 
 
-    public function tolak(Izin $izin)
+   public function tolak(Request $request, $id)
     {
-        
-        $izin->update(['status_approval' => 'Ditolak']);
-        
-      
-        Absensi::where('user_id', $izin->user_id)
-               ->where('tanggal', '>=', $izin->tanggal_mulai)
-               ->where('tanggal', '<=', $izin->tanggal_selesai)
-               ->whereIn('status_absensi', ['Izin', 'Sakit']) 
-               ->delete();
+        $request->validate([
+            'alasan_penolakan' => 'required|string|max:255',
+        ]);
 
-        return redirect()->back()->with('success', 'Pengajuan izin berhasil ditolak.');
+        $izin = Izin::findOrFail($id);
+
+        $izin->update([
+            'status_approval' => 'Ditolak',
+            'alasan_penolakan' => $request->alasan_penolakan
+        ]);
+
+        return redirect()->back()->with('success', 'Surat izin berhasil ditolak dengan alasan.');
     }
+
 }

@@ -1,129 +1,150 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Surat Izin & Sakit')
+@section('title', 'Approval Pengajuan Izin')
+@section('page-title', 'Daftar Pengajuan Izin Karyawan')
 
 @section('content')
 
-<style>
-    .alert-floating {
-        position: absolute;
-        top: 0; 
-        right: 0;
-        z-index: 1050;
-        width: auto;
-        min-width: auto;
-    }
-</style>
-
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show alert-floating position-absolute" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
-
 <div class="card shadow">
-    <div class="card-header">
-        <h5 class="m-0">Daftar Pengajuan Surat</h5>
-    </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-striped table-hover">
-                
+            <table class="table table-hover table-striped align-middle">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col" class="text-center" style="width: 50px;">#</th>
-                        <th scope="col" class="text-center">Nama</th>
-                        <th scope="col" class="text-center" style="width: 100px;">NIK</th>
-                        <th scope="col" class="text-center">Tgl. Diajukan</th>
-                        <th scope="col" class="text-center" style="width: 100px;">Jenis</th>
-                        <th scope="col" class="text-center">Tanggal Izin</th>
-                        
-                        {{-- ================ KOLOM BARU DITAMBAHKAN ================ --}}
-                        <th scope="col">Keterangan</th>
-                        {{-- ======================================================== --}}
-                        
-                        <th scope="col" class="text-center" style="width: 150px;">File Bukti</th>
-                        <th scope="col" class="text-center" style="width: 180px;">Aksi</th>
+                        <th>#</th>
+                        <th>Karyawan</th>
+                        <th>Jenis</th>
+                        <th>Tgl Pengajuan</th>
+                        <th>Tgl Izin</th>
+                        <th>Keterangan</th>
+                        <th>File Bukti</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
-                
-                <tbody>
-                    @forelse ($izinPending as $izin)
-                        <tr>
-                            <th scope="row" class="text-center">{{ $loop->iteration }}</th>
-                            <td>{{ $izin->user->nama ?? 'User Dihapus' }}</td>
-                            <td class="text-center">{{ $izin->user->nik ?? '-' }}</td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($izin->tanggal_pengajuan)->format('d F Y') }}</td>
-                            <td class="text-center">
-                                @if ($izin->jenis == 'Izin')
-                                    <span class="badge bg-info">Izin</span>
-                                @else
-                                    <span class="badge bg-warning text-dark">Sakit</span>
-                                @endif
-                            </td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d F Y') }} - {{ \Carbon\Carbon::parse($izin->tanggal_selesai)->format('d F Y') }}</td>
-                            
-                            {{-- ================ DATA BARU DITAMBAHKAN ================ --}}
-                            <td>
-                                {{-- Menampilkan keterangan, dibatasi 50 karakter --}}
-                                {{ \Illuminate\Support\Str::limit($izin->keterangan, 50, '...') }}
-                            </td>
-                            {{-- ======================================================== --}}
 
-                            <td class="text-center">
-                                <div class="btn-group btn-group-sm" role="group">
-                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" class="btn btn-outline-primary" target="_blank" title="Lihat File">
-                                        <i class="bi bi-eye-fill"></i> Lihat
-                                    </a>
-                                    <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" class="btn btn-outline-secondary" title="Unduh File" download>
+                <tbody>
+                   @forelse ($izinPending as $izin)
+
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+
+                        <td>{{ $izin->user->name }}</td>
+
+                        <td>
+                            @if ($izin->jenis == 'Izin')
+                                <span class="badge bg-info">Izin</span>
+                            @else
+                                <span class="badge bg-warning text-dark">Sakit</span>
+                            @endif
+                        </td>
+
+                        <td>{{ \Carbon\Carbon::parse($izin->tanggal_pengajuan)->translatedFormat('d F Y') }}</td>
+
+                        <td>
+                            {{ \Carbon\Carbon::parse($izin->tanggal_mulai)->format('d M Y') }} -
+                            {{ \Carbon\Carbon::parse($izin->tanggal_selesai)->format('d M Y') }}
+                        </td>
+
+                        <td>{{ $izin->keterangan }}</td>
+
+                        <td>
+                            <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" 
+                               target="_blank" 
+                               class="btn btn-primary btn-sm">
+                                Lihat
+                            </a>
+                            <a href="{{ asset('storage/surat_izin/' . $izin->file_bukti) }}" class="btn btn-primary btn-sm" title="Unduh File" download>
                                         <i class="bi bi-download"></i>
                                     </a>
+                        </td>
+
+                        <td>
+                            @if ($izin->status_approval == 'Pending')
+                                <span class="badge bg-secondary">Pending</span>
+                            @elseif ($izin->status_approval == 'Disetujui')
+                                <span class="badge bg-success">Disetujui</span>
+                            @else
+                                <span class="badge bg-danger">Ditolak</span>
+                            @endif
+                        </td>
+
+                        <td>
+                            <div class="btn-group" role="group">
+
+                                {{-- Tombol Setujui --}}
+                                <form action="{{ route('admin.izin.setujui', $izin->id) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-success btn-sm">Setujui</button>
+                                </form>
+
+                                {{-- Tombol Tolak (Membuka Modal) --}}
+                                <button 
+                                    class="btn btn-danger btn-sm ms-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalTolak{{ $izin->id }}">
+                                    Tolak
+                                </button>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    {{-- ============================= --}}
+                    {{-- MODAL TOLAK PER IZIN --}}
+                    {{-- ============================= --}}
+                    <div class="modal fade" id="modalTolak{{ $izin->id }}" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title">Tolak Pengajuan Izin</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
-                            </td>
-                            <td class="text-center">
-                                <form action="{{ route('admin.izin.setujui', $izin->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Anda yakin ingin MENYETUJUI pengajuan ini?');">
+
+                                <form action="{{ route('admin.izin.tolak', $izin->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-success btn-sm" title="Setujui">
-                                        <i class="bi bi-check-lg"></i> Setujui
-                                    </button>
+
+                                    <div class="modal-body">
+                                        <label class="form-label">Alasan Penolakan</label>
+
+                                        <textarea 
+                                            name="alasan_penolakan" 
+                                            rows="4" 
+                                            class="form-control"
+                                            placeholder="Tuliskan alasan kenapa pengajuan ini ditolak..."
+                                            required></textarea>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" 
+                                                class="btn btn-secondary" 
+                                                data-bs-dismiss="modal">
+                                            Batal
+                                        </button>
+                                        <button type="submit" class="btn btn-danger">
+                                            Kirim Penolakan
+                                        </button>
+                                    </div>
                                 </form>
-                                <form action="{{ route('admin.izin.tolak', $izin->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Anda yakin ingin MENOLAK pengajuan ini?');">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Tolak">
-                                        <i class="bi bi-x-lg"></i> Tolak
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+
+                            </div>
+                        </div>
+                    </div>
+                    {{-- END MODAL --}}
+
                     @empty
-                        <tr>
-                            {{-- Colspan diubah dari 9 menjadi 10 --}}
-                            <td colspan="10" class="text-center">
-                                Belum ada pengajuan izin yang menunggu persetujuan.
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="9" class="text-center py-3">
+                            Tidak ada pengajuan izin.
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
+
             </table>
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        let alert = document.querySelector('.alert-floating');
-        
-        if (alert) {
-            let closeButton = alert.querySelector('.btn-close');
-            
-            if (closeButton) {
-                setTimeout(() => {
-                    closeButton.click();
-                }, 4000); // 4 detik
-            }
-        }
-    });
-</script>
 
 @endsection
