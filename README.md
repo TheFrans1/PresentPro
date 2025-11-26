@@ -54,10 +54,13 @@ Karyawan memiliki fitur yang fokus pada kehadiran dan laporan pribadi, antara la
 
 4. **konfigurasi database edit file .env
     ```bash
+    SESSION_DRIVER=file
+    CACHE_STORE=file
+    
     DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
+    DB_HOST=localhost
     DB_PORT=3306
-    DB_DATABASE=db_smartpresencepro
+    DB_DATABASE=db_smartpresencepro / db name
     DB_USERNAME=root
     DB_PASSWORD=your_password
 5. **buat database**
